@@ -5,12 +5,13 @@ import { Calculator, Baby, Ruler, Info, RefreshCcw, ExternalLink, BookOpen, Chev
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WHO_BOYS_HEIGHT, WHO_GIRLS_HEIGHT, interpolate, getStuntingStatus, type StuntingStatus } from "@/lib/who-data";
+import { cn } from "@/lib/utils";
 
 export default function StuntingCalculator() {
   const [activeTab, setActiveTab] = useState("calculator");
@@ -52,29 +53,74 @@ export default function StuntingCalculator() {
 
   return (
     <div className="min-h-screen bg-bg font-sans text-text-dark flex flex-col">
-      {/* Header */}
-      <header className="px-8 py-6 lg:px-12 lg:py-8 flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-border bg-white gap-4">
-        <div className="space-y-1">
-          <h1 className="text-[10px] lg:text-xs uppercase tracking-[0.2em] font-bold text-text-muted">
-            Standar Pertumbuhan Anak
-          </h1>
-          <p className="text-2xl lg:text-3xl font-[800] text-primary tracking-tight">
-            Kalkulator Stunting WHO
-          </p>
+      {/* Banner Header */}
+      <header className="relative w-full h-[300px] lg:h-[400px] overflow-hidden flex items-center">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://i.postimg.cc/tJhm3HDc/Header-Ilustrasi.png" 
+            alt="Banner Background" 
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/95 via-sky-400/40 to-transparent" />
         </div>
-        <div className="text-left sm:text-right">
-          <span className="text-[10px] uppercase font-bold text-text-muted block mb-1">
-            Penyedia Layanan
-          </span>
-          <a
-            href="https://poltekmu.ac.id/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm lg:text-base font-bold hover:text-primary transition-colors flex items-center sm:justify-end gap-1"
+
+        {/* Content */}
+        <div className="relative z-10 max-w-[1400px] mx-auto w-full px-8 lg:px-12 flex flex-col sm:flex-row justify-between items-center gap-8">
+          <div className="space-y-4 text-center sm:text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-2"
+            >
+              <h1 className="text-xs lg:text-sm uppercase tracking-[0.3em] font-black text-white/80">
+                Standar Pertumbuhan Anak
+              </h1>
+              <p className="text-4xl lg:text-6xl font-[900] text-white tracking-tighter leading-none">
+                Kalkulator <br /> Stunting WHO
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-wrap justify-center sm:justify-start gap-3"
+            >
+              <Badge className="bg-white/20 hover:bg-white/30 text-white border-none backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
+                Akurat
+              </Badge>
+              <Badge className="bg-white/20 hover:bg-white/30 text-white border-none backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
+                Standar Internasional
+              </Badge>
+            </motion.div>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white/10 backdrop-blur-xl p-6 lg:p-8 rounded-[32px] border border-white/20 shadow-2xl text-center sm:text-right"
           >
-            Politeknik Muhammadiyah Makassar
-            <ExternalLink className="w-3 h-3" />
-          </a>
+            <span className="text-[10px] uppercase font-black text-white/60 block mb-2 tracking-widest">
+              Penyedia Layanan
+            </span>
+            <a
+              href="https://poltekmu.ac.id/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group space-y-2 block"
+            >
+              <p className="text-lg lg:text-xl font-black text-white group-hover:text-emerald-200 transition-colors">
+                Politeknik Muhammadiyah <br /> Makassar
+              </p>
+              <div className="flex items-center sm:justify-end gap-2 text-white/80 text-sm font-bold">
+                Kunjungi Website
+                <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </div>
+            </a>
+          </motion.div>
         </div>
       </header>
 
@@ -288,22 +334,27 @@ export default function StuntingCalculator() {
                       Daftar Infografis
                     </h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[
                       { 
                         id: "info-0", 
-                        title: "1000 Hari Pertama", 
-                        src: "https://drive.google.com/uc?export=view&id=1BM6aiH6lhACWWk0cxPPQiO21tO7wXeDE" 
+                        title: "Program Bapak Asuh Stunting", 
+                        src: "https://i.postimg.cc/XYvyFkv4/4.png" 
                       },
                       { 
                         id: "info-1", 
-                        title: "Langkah Pencegahan", 
-                        src: "https://drive.google.com/uc?export=view&id=1TJpU8cyrvHpJxy5UHUGh_mNFavQ9oMej" 
+                        title: "Intervensi Pencegahan", 
+                        src: "https://i.postimg.cc/6Qwqc6MM/2.png" 
                       },
                       { 
                         id: "info-2", 
-                        title: "Aksi & Deteksi Dini", 
-                        src: "https://drive.google.com/uc?export=view&id=1SdaCwh50SKSMXiWN6HjP_G8BlbVoSpE_" 
+                        title: "Kawal 1000 Hari", 
+                        src: "https://i.postimg.cc/tgyJkRBz/3.png" 
+                      },
+                      { 
+                        id: "info-3", 
+                        title: "Pencegahan Stunting Dasar", 
+                        src: "https://i.postimg.cc/RZwqwJLd/1.png" 
                       }
                     ].map((item) => (
                       <motion.button
@@ -333,19 +384,33 @@ export default function StuntingCalculator() {
                       </motion.button>
                     ))}
                   </div>
+                  <div className="flex justify-center pt-8">
+                    <a 
+                      href="https://drive.google.com/drive/folders/1yjclV6S4htWUR80mEW54DkP8cXezJk7R?usp=sharing" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={cn(
+                        buttonVariants({ variant: "outline" }),
+                        "border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold px-8 py-6 rounded-2xl text-lg group transition-all shadow-lg hover:shadow-primary/20 flex items-center gap-2"
+                      )}
+                    >
+                      Lihat semua Materi Edukasi
+                      <ExternalLink className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    </a>
+                  </div>
                 </section>
 
                 <section id="info-0" className="space-y-6 scroll-mt-24">
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-2 bg-primary rounded-full" />
                     <h2 className="text-3xl font-black tracking-tight text-text-dark uppercase">
-                      Panduan 1000 Hari Pertama Kehidupan
+                      Program Bapak Asuh Stunting
                     </h2>
                   </div>
                   <Card className="overflow-hidden border-none shadow-2xl rounded-3xl">
                     <img 
-                      src="https://drive.google.com/uc?export=view&id=1BM6aiH6lhACWWk0cxPPQiO21tO7wXeDE" 
-                      alt="Infografis Perjalanan 1000 Hari" 
+                      src="https://i.postimg.cc/XYvyFkv4/4.png" 
+                      alt="Infografis Bapak Asuh Stunting" 
                       className="w-full h-auto"
                       referrerPolicy="no-referrer"
                     />
@@ -356,13 +421,13 @@ export default function StuntingCalculator() {
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-2 bg-primary rounded-full" />
                     <h2 className="text-3xl font-black tracking-tight text-text-dark uppercase">
-                      Langkah Strategis Pencegahan
+                      Intervensi Pencegahan Stunting
                     </h2>
                   </div>
                   <Card className="overflow-hidden border-none shadow-2xl rounded-3xl">
                     <img 
-                      src="https://drive.google.com/uc?export=view&id=1TJpU8cyrvHpJxy5UHUGh_mNFavQ9oMej" 
-                      alt="Infografis Langkah Pencegahan Stunting" 
+                      src="https://i.postimg.cc/6Qwqc6MM/2.png" 
+                      alt="Infografis Intervensi Pencegahan" 
                       className="w-full h-auto"
                       referrerPolicy="no-referrer"
                     />
@@ -373,13 +438,30 @@ export default function StuntingCalculator() {
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-2 bg-primary rounded-full" />
                     <h2 className="text-3xl font-black tracking-tight text-text-dark uppercase">
-                      Aksi Hebat & Deteksi Dini
+                      Kawal 1000 Hari Pertama
                     </h2>
                   </div>
                   <Card className="overflow-hidden border-none shadow-2xl rounded-3xl">
                     <img 
-                      src="https://drive.google.com/uc?export=view&id=1SdaCwh50SKSMXiWN6HjP_G8BlbVoSpE_" 
-                      alt="Infografis Aksi Hebat Cegah Stunting" 
+                      src="https://i.postimg.cc/tgyJkRBz/3.png" 
+                      alt="Infografis Kawal 1000 Hari" 
+                      className="w-full h-auto"
+                      referrerPolicy="no-referrer"
+                    />
+                  </Card>
+                </section>
+
+                <section id="info-3" className="space-y-6 scroll-mt-24">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-2 bg-primary rounded-full" />
+                    <h2 className="text-3xl font-black tracking-tight text-text-dark uppercase">
+                      Pencegahan Stunting Dasar
+                    </h2>
+                  </div>
+                  <Card className="overflow-hidden border-none shadow-2xl rounded-3xl">
+                    <img 
+                      src="https://i.postimg.cc/RZwqwJLd/1.png" 
+                      alt="Infografis Pencegahan Stunting Dasar" 
                       className="w-full h-auto"
                       referrerPolicy="no-referrer"
                     />
@@ -412,9 +494,12 @@ export default function StuntingCalculator() {
         </AnimatePresence>
       </main>
 
-      <footer className="p-8 text-center border-t border-border bg-white">
+      <footer className="p-8 text-center border-t border-border bg-white space-y-2">
         <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">
           Disclaimer: Hasil kalkulator ini hanya sebagai referensi awal. Silakan konsultasikan dengan tenaga medis untuk diagnosis akurat.
+        </p>
+        <p className="text-[8px] font-medium text-text-muted/60 uppercase tracking-wider">
+          Credit: @2026 - Ucok, Hasnah, Tim PKM Politeknik Muhammadiah Makassar
         </p>
       </footer>
     </div>

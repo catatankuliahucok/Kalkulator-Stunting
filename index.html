@@ -6,6 +6,23 @@
     <title>Kalkulator Stunting WHO</title>
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#2563eb" />
+    <script>
+      // Defensive script to prevent "Cannot set property fetch of #<Window> which has only a getter"
+      // This happens when a polyfill tries to overwrite a read-only native fetch.
+      try {
+        if (window.fetch && Object.getOwnPropertyDescriptor(window, 'fetch')?.set === undefined) {
+          const originalFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: () => originalFetch,
+            set: (v) => { console.warn('Blocked attempt to overwrite window.fetch'); },
+            configurable: true,
+            enumerable: true
+          });
+        }
+      } catch (e) {
+        console.warn('Defensive fetch script failed', e);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
