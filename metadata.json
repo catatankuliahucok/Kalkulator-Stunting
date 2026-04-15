@@ -1,0 +1,6 @@
+{
+  "name": "Kalkulator Stunting WHO",
+  "description": "Aplikasi PWA untuk menghitung status stunting anak berdasarkan standar WHO. Kredit: Politeknik Muhammadiyah Makassar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
